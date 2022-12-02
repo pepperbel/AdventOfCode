@@ -1,6 +1,5 @@
 import os
 import sys
-import math
 with open(os.path.join(sys.path[0], "../Inputs/input_day_1.txt"), "r") as my_input:
     _INPUT = my_input.read()
     _INPUT = _INPUT.split("\n\n")

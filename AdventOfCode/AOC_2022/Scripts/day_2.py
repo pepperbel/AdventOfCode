@@ -7,124 +7,109 @@ with open(os.path.join(sys.path[0], "../Inputs/input_day_2.txt"), "r") as my_inp
     # print(_INPUT)
 
 
+class Choice(Enum):
+    ROCK = 1
+    PAPER = 2
+    SCISSORS = 3
+
+
+class RoundValue(Enum):
+    WIN = 6
+    DRAW = 3
+    LOSE = 0
+
+
+ChoiceDict = {
+    'A': Choice.ROCK,
+    'B': Choice.PAPER,
+    'C': Choice.SCISSORS,
+    'X': Choice.ROCK,
+    'Y': Choice.PAPER,
+    'Z': Choice.SCISSORS
+}
+
+
 class Scoreboard():
 
     def __init__(self):
-        self._elf_score = 0
-        self._person_score = 0
+        self._player_score = 0
 
-        self.elf_score_dict = self._make_score_dict(True)
-        self.person_score_dict = self._make_score_dict(False)
+    @ property
+    def PLAYER_SCORE(self):
+        return self._player_score
 
-    @property
-    def ELF_SCORE(self):
-        return self._elf_score
+    @ PLAYER_SCORE.setter
+    def PLAYER_SCORE(self, value):
+        self._player_score = value
 
-    @ELF_SCORE.setter
-    def ELF_SCORE(self, value):
-        self._elf_score = value
+    def _shuffle_choice(self, opp_choice, game_condition):
+        # X needs to lose
+        if game_condition == Choice.ROCK:
+            if opp_choice == Choice.ROCK:
+                return Choice.SCISSORS
+            elif opp_choice == Choice.PAPER:
+                return Choice.ROCK
+            elif opp_choice == Choice.SCISSORS:
+                return Choice.PAPER
 
-    @property
-    def PERSON_SCORE(self):
-        return self._person_score
+        # Y needs to draw
+        if game_condition == Choice.PAPER:
+            return opp_choice
 
-    @PERSON_SCORE.setter
-    def PERSON_SCORE(self, value):
-        self._person_score = value
+        # Z needs to Win
+        if game_condition == Choice.SCISSORS:
+            if opp_choice == Choice.ROCK:
+                return Choice.PAPER
+            elif opp_choice == Choice.PAPER:
+                return Choice.SCISSORS
+            elif opp_choice == Choice.SCISSORS:
+                return Choice.ROCK
 
-    def evaluate_round(self, elf_value, person_value, part_two=True):
+    def playGame(self, opponent_choice, player_choice, part_two=True):
 
         if part_two:
-            person_value = self._calculate_value_pair(elf_value, person_value)
-
-        self._add_choice_point(elf_value)
-        self._add_choice_point(person_value)
-
-        self.value_pair = "{}{}".format(elf_value, person_value)
-        self.ELF_SCORE += self.elf_score_dict[self.value_pair]
-        self.PERSON_SCORE += self.person_score_dict[self.value_pair]
-
-    def _calculate_value_pair(self, elf, person):
-        """
-        X needs to LOSE
-        Y needs to DRAW
-        Z needs to WIN
-        """
-        if person == "X":
-            if elf == "A":
-                return "Z"
-            elif elf == "B":
-                return "X"
-            elif elf == "C":
-                return "Y"
-        elif person == "Y":
-            if elf == "A":
-                return "X"
-            elif elf == "B":
-                return "Y"
-            elif elf == "C":
-                return "Z"
-        elif person == "Z":
-            if elf == "A":
-                return "Y"
-            elif elf == "B":
-                return "Z"
-            elif elf == "C":
-                return "X"
-
-    def _add_choice_point(self, value):
-        if value == "A":
-            self.ELF_SCORE += 1
-        elif value == "X":
-            self.PERSON_SCORE += 1
-        elif value == "B":
-            self.ELF_SCORE += 2
-        elif value == "Y":
-            self.PERSON_SCORE += 2
-        elif value == "C":
-            self.ELF_SCORE += 3
-        elif value == "Z":
-            self.PERSON_SCORE += 3
-
-    def _make_score_dict(self, elf=True):
-
-        my_dict = {}
-
-        if elf:
-            my_dict["AX"] = 3
-            my_dict["AY"] = 0
-            my_dict["AZ"] = 6
-            my_dict["BX"] = 6
-            my_dict["BY"] = 3
-            my_dict["BZ"] = 0
-            my_dict["CX"] = 0
-            my_dict["CY"] = 6
-            my_dict["CZ"] = 3
+            new_choice = self._shuffle_choice(opponent_choice, player_choice)
+            player = new_choice.value
         else:
-            my_dict["AX"] = 3
-            my_dict["AY"] = 6
-            my_dict["AZ"] = 0
-            my_dict["BX"] = 0
-            my_dict["BY"] = 3
-            my_dict["BZ"] = 6
-            my_dict["CX"] = 6
-            my_dict["CY"] = 0
-            my_dict["CZ"] = 3
+            player = player_choice.value
 
-        return my_dict
+        opponent = opponent_choice.value
+        self.PLAYER_SCORE += player
+
+        if opponent == player:
+            self.PLAYER_SCORE += RoundValue.DRAW.value
+        elif opponent == Choice.ROCK.value:
+            if player == Choice.PAPER.value:
+                self.PLAYER_SCORE += RoundValue.WIN.value
+            elif player == Choice.SCISSORS.value:
+                self.PLAYER_SCORE += RoundValue.LOSE.value
+        elif opponent == Choice.PAPER.value:
+            if player == Choice.ROCK.value:
+                self.PLAYER_SCORE += RoundValue.LOSE.value
+            elif player == Choice.SCISSORS.value:
+                self.PLAYER_SCORE += RoundValue.WIN.value
+        elif opponent == Choice.SCISSORS.value:
+            if player == Choice.ROCK.value:
+                self.PLAYER_SCORE += RoundValue.WIN.value
+            elif player == Choice.PAPER.value:
+                self.PLAYER_SCORE += RoundValue.LOSE.value
 
 
 # ------------ Part 1 --------------- #
 SCORE1 = Scoreboard()
 for i in _INPUT:
     value_pair = i.split(" ")
-    SCORE1.evaluate_round(value_pair[0], value_pair[1], False)
-print("Part 1 Answer: {}".format(SCORE1.PERSON_SCORE))
+    SCORE1.playGame(ChoiceDict[value_pair[0]],
+                    ChoiceDict[value_pair[1]], False)
+print("Part 1 Answer: {}".format(SCORE1.PLAYER_SCORE))
+# Should output 14163
 
 # ------------ Part 2 --------------- #
 
 SCORE2 = Scoreboard()
 for i in _INPUT:
     value_pair = i.split(" ")
-    SCORE2.evaluate_round(value_pair[0], value_pair[1], True)
-print("Part 2 Answer: {}".format(SCORE2.PERSON_SCORE))
+    SCORE2.playGame(ChoiceDict[value_pair[0]],
+                    ChoiceDict[value_pair[1]], True)
+print("Part 2 Answer: {}".format(SCORE2.PLAYER_SCORE))
+# Should output 12091

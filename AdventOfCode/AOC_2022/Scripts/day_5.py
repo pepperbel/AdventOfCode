@@ -76,10 +76,6 @@ for rule in _RULES:
     mover_boi_9000.move_crates(num_crates, rule[-2], rule[-1], True)
     mover_boi_9001.move_crates(num_crates, rule[-2], rule[-1], False)
 
+
 print("Part 1: ", mover_boi_9000.get_top_of_stacks())
-print(_STACKS)
-
-
-#mover_boi_9001 = CargoCrane(_STACKS)
-#mover_boi_9000.move_crates(num_crates, rule[-2], rule[-1], False)
 print("Part 2: ", mover_boi_9001.get_top_of_stacks())

@@ -66,8 +66,6 @@ class CargoCrane():
 mover_boi_9000 = CargoCrane(copy.deepcopy(_STACKS))
 mover_boi_9001 = CargoCrane(copy.deepcopy(_STACKS))
 
-print(_STACKS)
-
 for rule in _RULES:
     num_crates = int(rule[:-2])
     rule = [int(n) for n in rule]

@@ -7,7 +7,7 @@ with open(os.path.join(sys.path[0], "../Inputs/input_day2.txt"), "r") as my_inpu
 
 import re
 
-class row_attributes(object):
+class RowAttributes(object):
 
     def __init__(self, row:str, success_key:dict) -> None:
         self.game_id:int = int(row.split(":")[0].replace("Game", "").strip())
@@ -15,25 +15,25 @@ class row_attributes(object):
         self.num_sets:int = len(self.sets)
         self.success_key:dict = success_key
 
-    def get_matches(self, color:str) -> list[str]:
+    def _get_matches(self, color:str) -> list[str]:
         return re.findall(r'\b(\d+)\s+{}\b'.format(re.escape(color)), self.sets)
 
-    def get_highest_color_value(self, color:str) -> int:
-        return max([int(c) for c in self.get_matches(color)])
+    def _get_highest_color_value(self, color:str) -> int:
+        return max([int(c) for c in self._get_matches(color)])
 
-    def get_color_success(self, color:str) -> bool:
-        success:bool = all(int(value) <= self.success_key[color] for value in self.get_matches(color))
+    def _get_color_success(self, color:str) -> bool:
+        success:bool = all(int(value) <= self.success_key[color] for value in self._get_matches(color))
         return success
 
     def get_multiplied_colors(self) -> int:
-        value:int = self.get_highest_color_value("red")
-        value *= self.get_highest_color_value("blue")
-        value *= self.get_highest_color_value("green")
+        value:int = self._get_highest_color_value("red")
+        value *= self._get_highest_color_value("blue")
+        value *= self._get_highest_color_value("green")
 
         return value
 
     def is_row_successful(self) -> bool:
-        success:bool = all([self.get_color_success("red"), self.get_color_success("green"), self.get_color_success("blue")])
+        success:bool = all([self._get_color_success("red"), self._get_color_success("green"), self._get_color_success("blue")])
         return success
 
 
@@ -56,7 +56,7 @@ sum_of_multipliers:int = 0
 
 for row in _INPUT:
 
-    row_attr:row_attributes = row_attributes(row, success_key)
+    row_attr:RowAttributes = RowAttributes(row, success_key)
 
     if row_attr.is_row_successful():
 

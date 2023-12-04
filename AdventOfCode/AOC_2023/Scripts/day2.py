@@ -1,11 +1,15 @@
-import os
-import sys
-with open(os.path.join(sys.path[0], "../Inputs/input_day2.txt"), "r") as my_input:
-    _INPUT:str = my_input.read()
-    _INPUT:list[str] = _INPUT.split("\n")
-    #print(_INPUT)
+# https://adventofcode.com/2023/day/2
+# region ---- imports and inputs ----
 
 import re
+import AOC_Utilities as utils
+
+DATA = utils.DataManager(__file__, debug=True)
+INPUT = DATA.get_data(splitlines=True,)
+
+import re
+
+# endregion -------------------------
 
 class RowAttributes(object):
 
@@ -54,7 +58,7 @@ success_key:dict = {
 sum_of_successes:int = 0
 sum_of_multipliers:int = 0
 
-for row in _INPUT:
+for row in INPUT:
 
     row_attr:RowAttributes = RowAttributes(row, success_key)
 

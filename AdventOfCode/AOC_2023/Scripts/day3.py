@@ -1,13 +1,11 @@
-import os
-import sys
-with open(os.path.join(sys.path[0], "../Inputs/input_day3.txt"), "r") as my_input:
-    _INPUT:str = my_input.read()
-    _INPUT:list[str] = _INPUT.split("\n")
-    #print(_INPUT)
+
+# https://adventofcode.com/2023/day/3
+# region ---- imports and inputs ----
 
 import re
-SYMBOL_KEY = re.compile(r'[^\w\d.]')
+import AOC_Utilities as utils
 
+INPUT = utils.DataManager(__file__).get_data(splitlines=True)
 TESTCASES:list[str] = [
             "467..114..",
             "...*......",
@@ -21,18 +19,9 @@ TESTCASES:list[str] = [
             ".664.598.."
             ]
 
-TESTCASES_CUSTOM:list[str] = [
-            "467.114...",
-            "...*..*...",
-            "..35..633.",
-            "......#...",
-            "617*......",
-            ".....+.58.",
-            "..592.....",
-            "......755.",
-            "...$.*....",
-            ".664.598.."
-            ]
+# endregion -------------------------
+
+SYMBOL_KEY = re.compile(r'[^\w\d.]')
 
 class RowAttributes(object):
 
@@ -165,6 +154,7 @@ class RowAttributes(object):
         print("NUMS of ROW SET: ", nums)
         print("SUM OF 1 ROW_SET: ", sum)
 
+# --------- MAIN ---------------
 
 def compare_for_duplicates(current_list, previous_list):
     # Strips current_list of all duplicates found matching on the previous list
@@ -182,6 +172,7 @@ def execute_day_3(ROWS:list[str]) -> tuple[int]:
 
     for i in range(1, len(ROWS)):
 
+        # region ---- Row Sets ----
         if i == 0 and len(ROWS) - 1 != i:
             # FIRST ROW
             row_set = ["....", ROWS[i], ROWS[i+1]]
@@ -190,10 +181,10 @@ def execute_day_3(ROWS:list[str]) -> tuple[int]:
         elif i == len(ROWS) - 1:
             # LAST ROW
             row_set = [ROWS[i-1], ROWS[i], "...."]
+        # endregion ---------------
 
-
+        # This is where the magic happens
         #print("----------Start {}-----------".format(i))
-
         row_attr:RowAttributes = RowAttributes(row_set)
         if row_attr.symbol_indices == None:
             continue
@@ -209,15 +200,16 @@ def execute_day_3(ROWS:list[str]) -> tuple[int]:
         total_sum_part_1 += row_attr.add_values_of_rows()[0]
         total_sum_part_2 += row_attr.multiplied_gears
 
-        # DEBUG
+        # region ---  DEBUG ---
         #row_attr.DEBUG_print_grid_around_symbol()
         #row_attr.DEBUG_print_row_set()
         #row_attr.DEBUG_print_sum_of_row_set()
+        # endregion -----------
 
     return total_sum_part_1, total_sum_part_2
 
 
-sum_part_1, sum_part_2 = execute_day_3(_INPUT)
+sum_part_1, sum_part_2 = execute_day_3(INPUT)
 
 print("DAY 3 PART 1: ", sum_part_1) # ANSWER PART 1 == 525911
 print("DAY 3 PART 2: ", sum_part_2) # ANSWER PART 2 == 75805607

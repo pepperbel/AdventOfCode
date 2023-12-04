@@ -174,11 +174,11 @@ def compare_for_duplicates(current_list, previous_list):
 
     return current_list
 
-def execute_day_3(ROWS:list[str]):
+def execute_day_3(ROWS:list[str]) -> tuple[int]:
 
-    total_sum_part_1 = 0
-    total_sum_part_2 = 0
-    previous_bottom_row = []
+    total_sum_part_1:int = 0
+    total_sum_part_2:int = 0
+    previous_bottom_row:list = []
 
     for i in range(1, len(ROWS)):
 
@@ -214,8 +214,10 @@ def execute_day_3(ROWS:list[str]):
         #row_attr.DEBUG_print_row_set()
         #row_attr.DEBUG_print_sum_of_row_set()
 
-    return 
-    print("DAY 3 PART 1: ", total_sum_part_1) # ANSWER PART 1 == 525911
-    print("DAY 3 PART 2: ", total_sum_part_2) # ANSWER PART 2 == 75805607
+    return total_sum_part_1, total_sum_part_2
 
-execute_day_3(_INPUT)
+
+sum_part_1, sum_part_2 = execute_day_3(_INPUT)
+
+print("DAY 3 PART 1: ", sum_part_1) # ANSWER PART 1 == 525911
+print("DAY 3 PART 2: ", sum_part_2) # ANSWER PART 2 == 75805607

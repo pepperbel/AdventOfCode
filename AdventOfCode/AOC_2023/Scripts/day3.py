@@ -87,12 +87,13 @@ class RowAttributes(object):
         multiply_list:list[str] = []
 
         # hate this...needs to be cuter, but honestly I'm tired
-        for dir, items in self.grid.items():
-                for item in items:
-                    if item != None:
-                        if item[0][0] >= symbol_index - 1 or item[0][1] >= symbol_index - 1:
-                            if item[0][0] <= symbol_index + 1 or item[0][1] <= symbol_index + 1:
-                                multiply_list.append(item[1])
+        # Coordinate Pair consists of the Index-Range of a number in a row and the number
+        for direction, coord_pair_list in self.grid.items():
+                for coord_pair in coord_pair_list:
+                    if coord_pair != None:
+                        if coord_pair[0][0] >= symbol_index - 1 or coord_pair[0][1] >= symbol_index - 1:
+                            if coord_pair[0][0] <= symbol_index + 1 or coord_pair[0][1] <= symbol_index + 1:
+                                multiply_list.append(coord_pair[1])
 
         if len(multiply_list) > 2:
             print("EMERGENCY, YOU HAVE NOT HANDLED THIS EDGE CASE....GOOD GOD HELP YOU")

@@ -1,4 +1,4 @@
-# https://adventofcode.com/2023/day/3
+# https://adventofcode.com/2023/day/4
 # region ---- imports and inputs ----
 
 import re
@@ -65,18 +65,23 @@ class Scratchcard(object):
 def get_scratchcards(input:list[str]) -> list[Scratchcard]:
     return [Scratchcard(row) for row in input]
 
-def execute_day_4() -> tuple(int):
+
+def execute_day_4_part_1(cards) -> int:
 
     counter_part_1 = 0
-    counter_part_2 = 0
-    scratchcards:list[Scratchcard] = get_scratchcards(INPUT)
 
-    for current_card in scratchcards:
-
-        #PART 1
+    for current_card in cards:
         counter_part_1 += current_card.card_value
+    
+    return counter_part_1
 
-        # PART 2
+
+def execute_day_4_part_2(cards) -> int:
+
+    counter_part_2 = 0
+    
+
+    for current_card in cards:
         for i in range(len(current_card.winning_numbers)):
             index = scratchcards.index(current_card) + 1 + i
             scratchcards[index].copies_created += current_card.copies_created
@@ -84,10 +89,12 @@ def execute_day_4() -> tuple(int):
     for current_card in scratchcards:
         counter_part_2 += current_card.copies_created
     
-    return counter_part_1, counter_part_2
+    return counter_part_2
 
-part_1, part_2 = execute_day_4()
-print("DAY 4 Part 1: ", part_1) # ANSWER == 18619
-print("DAY 4 Part 2: ", part_2) # ANSWER == 8063216
+
+scratchcards:list[Scratchcard] = get_scratchcards(INPUT)
+print("DAY 4 Part 1: ", execute_day_4_part_1(scratchcards)) # ANSWER == 18619
+print("DAY 4 Part 2: ", execute_day_4_part_2(scratchcards)) # ANSWER == 8063216
+
 
 

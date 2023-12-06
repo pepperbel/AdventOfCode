@@ -13,6 +13,9 @@ TESTCASES:list[str] = "Time:      7  15   30\nDistance:  9  40  200"
 
 # endregion -------------------------
 
+
+# PARSE INPUT
+
 def parse_input_part_1(input:str):
     time:str = input.split("\n")[0]
     record:str = input.split("\n")[1]
@@ -33,6 +36,8 @@ def parse_input_part_2(input:str):
     return int("".join(time_split)), int("".join(record_split))
 
 
+# SHARED FUNCTIONS 
+
 def get_options(time, record):
     distance:int = 0
     hold_times:list[int] = []
@@ -46,6 +51,8 @@ def get_options(time, record):
     
     return hold_times
 
+
+# EXECUTION
 
 def execute_day_6_part_1(input):
     times, records = parse_input_part_1(input)
@@ -66,6 +73,6 @@ def execute_day_6_part_2(input):
     return option_count
 
 
-#print("DAY 1 PART 1: ", execute_day_6_part_1(INPUT)) # ANSWER == 840336
+print("DAY 1 PART 1: ", execute_day_6_part_1(INPUT)) # ANSWER == 840336
 print("DAY 1 PART 2: ", execute_day_6_part_2(INPUT)) # ANSWER == 41382569
 print("--- %s seconds ---" % (time.time() - start_time))

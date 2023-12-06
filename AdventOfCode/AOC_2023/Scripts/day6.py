@@ -3,6 +3,9 @@
 
 import re
 import AOC_Utilities as utils
+import time
+start_time = time.time()
+
 
 INPUT = utils.DataManager(__file__).get_data()
 TESTCASES:list[str] = "Time:      7  15   30\nDistance:  9  40  200"
@@ -63,5 +66,6 @@ def execute_day_6_part_2(input):
     return option_count
 
 
-print("DAY 1 PART 1: ", execute_day_6_part_1(INPUT)) # ANSWER == 840336
+#print("DAY 1 PART 1: ", execute_day_6_part_1(INPUT)) # ANSWER == 840336
 print("DAY 1 PART 2: ", execute_day_6_part_2(INPUT)) # ANSWER == 41382569
+print("--- %s seconds ---" % (time.time() - start_time))

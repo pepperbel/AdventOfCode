@@ -60,8 +60,8 @@ def get_password(input, current_dial, dbg=False):
 
     return zero_counter_part_1, zero_counter_part_2
 
-#password_part_1, password_part_2 = get_password(input=_INPUT, current_dial=starting_dial, dbg=False)
-password_part_1, password_part_2 = get_password(input=TEST_INPUT, current_dial=starting_dial, dbg=True)
+password_part_1, password_part_2 = get_password(input=_INPUT, current_dial=starting_dial, dbg=False)
+#password_part_1, password_part_2 = get_password(input=TEST_INPUT, current_dial=starting_dial, dbg=True)
 
 print("FINAL PASSWORD PART 1: ", password_part_1) # 1180
 print("FINAL PASSWORD PART 2: ", password_part_2) # 6892

@@ -9,8 +9,7 @@ def interpret_input(input:str):
     return [input_direction, input_distance]
 
 with open(os.path.join(sys.path[0], "../Inputs/input_day1.txt"), "r") as my_input:
-    _INPUT:str = my_input.read()
-    _INPUT:list[str] = _INPUT.split("\n")
+    _INPUT:list[str] = my_input.read().splitlines()
     _INPUT:list = [interpret_input(i) for i in _INPUT if i]
     #print(_INPUT)
 

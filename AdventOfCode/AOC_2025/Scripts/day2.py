@@ -32,8 +32,7 @@ def cut_string_compare(str_num, n):
 
     size = len(str_num) // n
     parts = [str_num[i:i+size] for i in range(0, len(str_num), size)]
-    equal = len(set(parts)) == 1
-    return True if equal else False
+    return (len(set(parts)) == 1)
 
 def dissect_those_mofo_ranges(input, dbg=False):
     invalid_add_counter_part_1 = 0
@@ -74,5 +73,4 @@ def dissect_those_mofo_ranges(input, dbg=False):
 invalid_ids_part_1, invalid_ids_part_2 = dissect_those_mofo_ranges(_INPUT, dbg=False) 
 print("PART 1: ", invalid_ids_part_1) #52316131093
 print("PART 2: ", invalid_ids_part_2) #69564213293
-
 
